@@ -1,1 +1,70 @@
 
+.chat {
+box-sizing: border-box;
+font-family: 'Dosis', sans-serif;
+
+&__title {
+    display: flex;
+    justify-content: center;
+}
+
+&__container {
+    background-color: #d5e3e7;
+    border: solid rgb(153, 188, 202);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow:#55657c 10px 10px;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 4%;
+    letter-spacing: 0.5px;
+
+}
+
+&__messages {
+list-style-type: none;
+padding: 0;
+
+&__item {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #8bbdd0;
+    width: auto;
+    font-size: 14px;
+    margin: 10px;
+    padding: 5px 10px 5px 12px;
+    width: 50%;
+    margin-right: 0px;
+    margin-left: 20px;
+}
+
+}
+
+}
+
+.input__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    }
+
+.input__field {
+    padding: 5px;
+    border: 1px solid #e4ebea;
+    border-radius: 10px;
+    max-width: 50%;
+    width: 300px;
+    height: 25px;
+  }
+
+
+.btn__send {
+    margin-left: 10px;
+    background-color: #407095;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+}

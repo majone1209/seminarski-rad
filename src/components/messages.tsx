@@ -1,32 +1,59 @@
 import {useState} from "react";
 
-const Messages = ({drone, username, room}) => {
-    const [message, setMessage] = useState("");
-    
-    const sendMessage = async () => {
-        if (message !== "") {
-            const messageData = {
-                room: room,
-                author: username,
-                currentMessage: message,
-                time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
-            }
-        }
-      
-    }
+type MessageType = {
+    id: number;
+    text: string;
+    user: string;
 
-    return (
-        <div>
-            <div className="chat__header">Chat</div>
-            <div className="chat__body"></div>
-            <div className="chat__foother">
-                <input type="text" placeholder="Write a message..." onChange={(event) =>{setMessage(event.target.value)}} />
-                <button className="btn__send">&#9658;</button>
-            </div>
-        </div>
-    )
 }
 
-export default Messages;
+const Message = () => {
+    const [messages, setMessages] = useState<MessageType[]>([]);
+    const [newMessage, setNewMessage] = useState("");
+    
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNewMessage(event.target.value);
+      };
+    
+    const handleSendMessage = () => {
+        if (newMessage.trim() !== "") {
+            const newMessageObj: MessageType = {
+              id: messages.length + 1,
+              text: newMessage,
+              user: "Korisnik:",
+            };
+            setMessages([...messages, newMessageObj]);
+            setNewMessage("");
+          }
+        };
+
+        const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+            if (event.key === "Enter") {
+              handleSendMessage();
+            }
+          };
+        
+
+        return (
+            <div className="chat">
+            <div className="chat__container"> 
+            <h1 className="chat__title">My Chat App</h1>
+                <div className="chat__messages">
+                    {messages.map((message) => (
+                        <li className="chat__messages__item" key={message.id}><strong>{message.user}</strong> {message.text}
+                        </li>
+                    ))}
+                    <div className="input__container">
+                <input className="input__field" type="text" placeholder="Send a message..." value={newMessage} onKeyDown={handleKeyDown} onChange={handleInputChange} autoFocus={true} />
+                <button className="btn__send" onClick={handleSendMessage}>Send</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        )
+    }
+  
+    
+export default Message;
 
 
