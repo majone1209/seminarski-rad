@@ -1,16 +1,15 @@
 import "./styles/styles.scss";
 import Message from "./components/messages";
 
+
 const App = () => {
- 
+
+  
   return (
-    <>
-    <Message />
-    
-   </>
-    
-     
-  )
-}
+    <div>
+      <Message />
+    </div>
+  );
+};
 
 export default App;

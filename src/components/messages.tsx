@@ -28,11 +28,12 @@ const Message = () => {
         };
 
         const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-            if (event.key === "Enter") {
-              handleSendMessage();
-            }
-          };
-        
+          if (event.key === "Enter") {
+            handleSendMessage();
+          }
+        };
+
+    
 
         return (
             <div className="chat">
@@ -55,5 +56,3 @@ const Message = () => {
   
     
 export default Message;
-
-

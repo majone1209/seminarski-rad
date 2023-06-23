@@ -1,7 +1,7 @@
 
 .chat {
-box-sizing: border-box;
-font-family: 'Dosis', sans-serif;
+    box-sizing: border-box;
+    font-family: 'Dosis', sans-serif;
 
 &__title {
     display: flex;
@@ -22,8 +22,8 @@ font-family: 'Dosis', sans-serif;
 }
 
 &__messages {
-list-style-type: none;
-padding: 0;
+    list-style-type: none;
+    padding: 0;
 
 &__item {
     margin-bottom: 10px;
