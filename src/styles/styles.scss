@@ -1,70 +1,100 @@
 
-.chat {
-    box-sizing: border-box;
-    font-family: 'Dosis', sans-serif;
-
-&__title {
+.App {
     display: flex;
-    justify-content: center;
-}
-
-&__container {
-    background-color: #d5e3e7;
-    border: solid rgb(153, 188, 202);
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow:#55657c 10px 10px;
-    max-width: 500px;
-    margin: auto;
-    margin-top: 4%;
-    letter-spacing: 0.5px;
-
-}
-
-&__messages {
-    list-style-type: none;
-    padding: 0;
-
-&__item {
-    margin-bottom: 10px;
-    border-radius: 10px;
-    background-color: #8bbdd0;
-    width: auto;
-    font-size: 14px;
-    margin: 10px;
-    padding: 5px 10px 5px 12px;
-    width: 50%;
-    margin-right: 0px;
-    margin-left: 20px;
-}
-
-}
-
-}
-
-.input__container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    }
-
-.input__field {
-    padding: 5px;
-    border: 1px solid #e4ebea;
-    border-radius: 10px;
-    max-width: 50%;
-    width: 300px;
-    height: 25px;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
   }
-
-
-.btn__send {
-    margin-left: 10px;
-    background-color: #407095;
-    color: #fff;
+  
+  .App-header {
+    background-color: #262626;
+    overflow: visible;
+    width: 100%;
+    text-align: center;
+    color: white;
+  }
+  
+  .Messages-list {
+    padding: 20px 0;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    list-style: none;
+    padding-left: 0;
+    flex-grow: 1;
+    overflow: auto;
+  }
+  
+  .Messages-message {
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  .Messages-message.currentMember {
+    /*justify-content: flex-end;*/
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+  
+  .Message-content {
+    display: inline-block;
+  }
+  
+  .currentMember > .Message-content {
+    align-items: flex-end;
+  }
+  
+  .Messages-message > .avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 10px -10px;
+  }
+  
+  .Message-content > .username {
+    display: block;
+    color: gray;
+    font-size: 14px;
+    padding-bottom: 4px;
+  }
+  
+  .Message-content > .text {
+    padding: 10px;
+    max-width: 400px;
+    margin: 0;
+    border-radius: 12px;
+    background-color: cornflowerblue;
+    color: white;
+    display: inline-block;
+  }
+  
+  .currentMember > .Message-content .text {
+    background-color: orangered;
+  }
+  
+  form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 0 auto 40px;
+  }
+  
+  input {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid orangered;
+    flex-grow: 1;
+  }
+  
+  button {
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: orangered;
+    color: white;
     border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-}
+    border-radius: 8px;
+    margin-left: 10px;
+  }
