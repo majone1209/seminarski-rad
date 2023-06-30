@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 interface Member {
   [x: string]: any;
   username: string;
@@ -16,7 +16,7 @@ type MessagesProps = {
 const Messages: React.FC<MessagesProps> = ({ messages, currentMember }) => {
   const renderMessage = (message: Message) => {
     const { member, text } = message;
-    const messageFromMe = currentMember.id;
+    const messageFromMe = currentMember.id === member.id;
     const className = messageFromMe
       ? "Messages-message currentMember"
       : "Messages-message";
@@ -24,12 +24,16 @@ const Messages: React.FC<MessagesProps> = ({ messages, currentMember }) => {
       <li className={className}>
         <span
           className="avatar"
-          style={{ backgroundColor: currentMember.color }}
+          style={{ backgroundColor: messageFromMe
+            ? currentMember.color : message.member.clientData.color }}
         />
         <div className="Message-content">
-          <div className="username">{currentMember.username}</div>
+          <div className="username">{messageFromMe
+                  ? currentMember.username
+                  : message.member.clientData.username}</div>
           <div className="text">{text}</div>
         </div>
+        
       </li>
     );
   };

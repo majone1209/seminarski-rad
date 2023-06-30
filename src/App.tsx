@@ -2,98 +2,226 @@
 import  { useState, useEffect } from "react";
 import Input from "./components/input";
 import Messages from "./components/messages";
-import {re} from "./message/messages";
 import "./styles/styles.scss";
-type Member = {
-  id?: string;
-  username: string;
-  color: string;
-};
+
 type Message = {
+  member: {
+    username: string;
+    color: string;
+    id?: string;
+  };
   text: string;
-  member: Member;
 };
-const App = () => {
-  const drone = new window.Scaledrone("7vY3glZ07vcvBnIs")
-  // set init state for messages and users
-  const [messages, setMessages] = useState<Message[]>([
-  ]);
-  const [member, setMember] = useState<Member>({
+
+const randomName = (): string => {
+  const adjectives: string[] = [
+    "autumn",
+    "hidden",
+    "bitter",
+    "misty",
+    "silent",
+    "empty",
+    "dry",
+    "dark",
+    "summer",
+    "icy",
+    "delicate",
+    "quiet",
+    "white",
+    "cool",
+    "spring",
+    "winter",
+    "patient",
+    "twilight",
+    "dawn",
+    "crimson",
+    "wispy",
+    "weathered",
+    "blue",
+    "billowing",
+    "broken",
+    "cold",
+    "damp",
+    "falling",
+    "frosty",
+    "green",
+    "long",
+    "late",
+    "lingering",
+    "bold",
+    "little",
+    "morning",
+    "muddy",
+    "old",
+    "red",
+    "rough",
+    "still",
+    "small",
+    "sparkling",
+    "throbbing",
+    "shy",
+    "wandering",
+    "withered",
+    "wild",
+    "black",
+    "young",
+    "holy",
+    "solitary",
+    "fragrant",
+    "aged",
+    "snowy",
+    "proud",
+    "floral",
+    "restless",
+    "divine",
+    "polished",
+    "ancient",
+    "purple",
+    "lively",
+    "nameless",
+  ];
+  const nouns: string[] = [
+    "waterfall",
+    "river",
+    "breeze",
+    "moon",
+    "rain",
+    "wind",
+    "sea",
+    "morning",
+    "snow",
+    "lake",
+    "sunset",
+    "pine",
+    "shadow",
+    "leaf",
+    "dawn",
+    "glitter",
+    "forest",
+    "hill",
+    "cloud",
+    "meadow",
+    "sun",
+    "glade",
+    "bird",
+    "brook",
+    "butterfly",
+    "bush",
+    "dew",
+    "dust",
+    "field",
+    "fire",
+    "flower",
+    "firefly",
+    "feather",
+    "grass",
+    "haze",
+    "mountain",
+    "night",
+    "pond",
+    "darkness",
+    "snowflake",
+    "silence",
+    "sound",
+    "sky",
+    "shape",
+    "surf",
+    "thunder",
+    "violet",
+    "water",
+    "wildflower",
+    "wave",
+    "water",
+    "resonance",
+    "sun",
+    "wood",
+    "dream",
+    "cherry",
+    "tree",
+    "fog",
+    "frost",
+    "voice",
+    "paper",
+    "frog",
+    "smoke",
+    "star",
+  ];
+  const adjective: string =
+    adjectives[Math.floor(Math.random() * adjectives.length)];
+  const noun: string = nouns[Math.floor(Math.random() * nouns.length)];
+  return adjective + noun;
+};
+
+const randomColor = (): string => {
+  return "#" + Math.floor(Math.random() * 0xffffff).toString(16);
+};
+
+const App: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [member, setMember] = useState<{
+    username: string;
+    color: string;
+    id?: string;
+  }>({
     username: randomName(),
     color: randomColor(),
+    
   });
+  const [drone, setDrone] = useState<any>(null);
+
   useEffect(() => {
-    const room = drone.subscribe("observable-room");
-    room.on("open", (error?: string) => {
+    let isJoined = true;
+
+    const droneSample = new window.Scaledrone("7vY3glZ07vcvBnIs", {
+      data: member,
+    });
+
+    droneSample.on("open", (error: any) => {
       if (error) {
         return console.error(error);
       }
-      const updatedMember = { ...member, id: drone.clientId };
-      console.log(member)
+      const updatedMember = { ...member };
+      updatedMember.id = droneSample.clientId;
       setMember(updatedMember);
     });
-    room.on("data", (data: string, member: Member) => {
-      console.log("data", data)
-      console.log("member", member)
-      setMessages((prevMessages, member) => [
-        ...prevMessages,
-        { text:data, member: member },
-      ]);
-    });
+
+    const room = droneSample.subscribe("observable-room");
+    const onData = (data: string, member: any) => {
+      
+      if (isJoined) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { member, text: data },
+        ]);
+      }
+    };
+    room.on("data", onData);
+
+    setDrone(droneSample);
+
+    return () => {
+      isJoined = false;
+      room.off("data", onData);
+      droneSample.close();
+    };
   }, []);
-  function randomName(): string {
-    const adjectives = [
-      "autumn",
-      "hidden",
-      "bitter",
-      "misty",
-      "silent",
-      "empty",
-      "dry",
-      "dark",
-      "summer",
-      "icy",
-      "delicate",
-    ];
-    const nouns = [
-       "sunset",
-      "pine",
-      "shadow",
-      "leaf",
-      "dawn",
-      "glitter",
-      "forest",
-      "hill",
-      "cloud",
-      "meadow",
-      "sun",
-    ];
-    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const noun = nouns[Math.floor(Math.random() * nouns.length)];
-    return adjective + noun;
-  }
-  function randomColor(): string {
-    return "#" + Math.floor(Math.random() * 0xffffff).toString(16);
-  }
+
   const onSendMessage = (message: string) => {
-    const updatedMessages = [...messages];
-    updatedMessages.push({
-      text: message,
-      member: member,
-    });
-    // setMessages(updatedMessages);
     drone.publish({
       room: "observable-room",
-      message: message,
+      message,
     });
   };
+
   return (
-    <div className="app">
-      <div className="App">
-        <Messages messages={messages} currentMember={member} />
-        <Input onSendMessage={onSendMessage} text={""} />
+    <div className="App">
+      <div className="App-header">
+        <h1>My Chat App</h1>
       </div>
+      <Messages messages={messages} currentMember={member} />
+      <Input onSendMessage={onSendMessage} />
     </div>
   );
 };
+
 export default App;

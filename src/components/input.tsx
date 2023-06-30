@@ -1,4 +1,5 @@
 import  { useState, ChangeEvent, FormEvent, InputHTMLAttributes } from "react";
+
 type InputProps = {
   onSendMessage: (message: string) => void;
   text: string;
@@ -22,10 +23,10 @@ const Input = ({ onSendMessage }:InputProps) => {
           onChange={onChange}
           value={text}
           type="text"
-          placeholder="Upiši poruku i stisni ENTER"
+          placeholder="Write a message and press ENTER"
           autoFocus
         />
-        <button type="submit">Pošalji</button>
+        <button type="submit">Send</button>
       </form>
     </div>
   );
