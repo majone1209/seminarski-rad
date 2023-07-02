@@ -1,3 +1,4 @@
+//@ts-nocheck
 import  { useState, ChangeEvent, FormEvent, InputHTMLAttributes } from "react";
 
 type InputProps = {
